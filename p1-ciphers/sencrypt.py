@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import argparse,os
+import argparse,sys
 
 m = 256  # modulus
 a = 1103515245  # multiplier
