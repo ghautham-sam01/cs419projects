@@ -12,7 +12,7 @@ def rand_gen(xO):
 def sdbm_hash(password):
     hash_val = 0
     for b in password:
-        hash_val = b + (hash_val<<6) + (hash_val<<16) - hash
+        hash_val = b + (hash_val<<6) + (hash_val<<16) - hash()
     return hash_val
 
 def gen_ks(seed,len):
@@ -33,6 +33,7 @@ def apply_stream_cipher(password,input,output):
 
 
 def main():
+    '''
     parser = argparse.ArgumentParser(description="Encrypt or decrypt file using a stream cipher")
     parser.add_argument("password", help="Specify password")
     parser.add_argument("input_file", help="Input plaintext file (default: stdin)")
@@ -44,6 +45,15 @@ def main():
     except FileNotFoundError:
         print("Error: File not found")
         sys.exit(1)
+    '''
+    test1 = []
+    seed = 85
+    for i in range(5):
+       test1.append(rand_gen(seed) if len(test1)==0 else rand_gen(test1[i-1]))
+    print(f'using seed 85 {test1}')
+    
+    test2 = 'monkey01'
+    print(f'checking hashing function with monkey01 : {sdbm_hash(test2)}')  
 
 if __name__ == '__main__':
     main()
