@@ -11,12 +11,12 @@ def decrypt_text(key, ciphertext,blocksize):
         cols[cols_idx].append(b)
     
     sorted_key = sorted(key)
-    key_map = {sorted_key[i]: key[i] for i in range(len(key))}
 
     for start_idx in range(0, len(ciphertext), blocksize*len(key)):
-        for k in key:
-            og_col_idx = key_map[k]
+        for k in sorted_key:           
+            og_col_idx = key.index(k) 
             decrypted_text.extend(cols[og_col_idx])
+
     
     return decrypted_text
 
@@ -29,7 +29,13 @@ def main():
     parser.add_argument("ciphertextfile", nargs="?", type=argparse.FileType("rb"), default=sys.stdin.buffer, help="Input ciphertext file (default: stdin)")
     args = parser.parse_args()
 
-    ciphertext = args.ciphertextfile.read()
+    try:
+        with open(args.ciphertextfile.read(), 'rb') as file:
+            ciphertext = file.read()
+    except Exception as e:
+        sys.stderr.write(f"An error occurred: {e}\n")
+        exit(1)
+        
     decrypted_text = decrypt_text(args.key, ciphertext, args.blocksize)
     sys.stdout.buffer.write(decrypted_text)
 

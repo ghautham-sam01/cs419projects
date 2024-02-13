@@ -12,7 +12,7 @@ def rand_gen(xO):
 def sdbm_hash(password):
     hash_val = 0
     for b in password:
-        hash_val = b + (hash_val<<6) + (hash_val<<16) - hash()
+        hash_val = b + (hash_val<<6) + (hash_val<<16) - hash_val
     return hash_val
 
 def gen_ks(seed,len):
@@ -50,10 +50,10 @@ def main():
     seed = 85
     for i in range(5):
        test1.append(rand_gen(seed) if len(test1)==0 else rand_gen(test1[i-1]))
-    print(f'using seed 85 {test1}')
+    print(f' Test 1: using seed 85 {test1}')
     
     test2 = 'monkey01'
-    print(f'checking hashing function with monkey01 : {sdbm_hash(test2)}')  
+    print(f'Test 2: checking hashing function with monkey01 : {sdbm_hash(test2.encode())}')  
 
 if __name__ == '__main__':
     main()

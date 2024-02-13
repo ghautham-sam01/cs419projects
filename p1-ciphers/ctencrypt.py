@@ -19,7 +19,6 @@ def encrypt_text(key, plaintext,blocksize):
             cols_idx = key.index(k)
             encrypted_text.extend(cols[cols_idx])
 
-
     return encrypted_text
 
 
@@ -31,7 +30,14 @@ def main():
     parser.add_argument("plaintextfile", nargs="?", type=argparse.FileType("rb"), default=sys.stdin.buffer, help="Input plaintext file (default: stdin)")
     args = parser.parse_args()
 
-    plaintext = args.plaintextfile.read()
+    
+    try:
+        with open(args.plaintextfile.read(), 'rb') as file:
+            plaintext = file.read()
+    except Exception as e:
+        sys.stderr.write(f"An error occurred: {e}\n")
+        exit(1)
+        
     encrypted_text = encrypt_text(args.key, plaintext, args.blocksize)
     sys.stdout.buffer.write(encrypted_text)
 
