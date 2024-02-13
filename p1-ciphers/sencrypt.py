@@ -21,14 +21,14 @@ def run_tests():
        test3.append(rand_gen(seed) if len(test3)==0 else rand_gen(test3[i-1]))
     print(f'Test 3: Putting it all together : {test3}')
 
+
 def rand_gen(xO):
     return ((xO*a) + c) % m 
 
 def sdbm_hash(password):
     hash_val = 0
     for c in password:
-        #ASCII value for char
-        hash_val = ord(c) + (hash_val<<6) + (hash_val<<16) - hash_val 
+        hash_val = ord(c) + (hash_val << 6 & 0xFF) + (hash_val << 16 & 0xFF) - hash_val & 0xFF
     return hash_val 
 
 def gen_ks(seed,len):
@@ -51,6 +51,7 @@ def apply_stream_cipher(password,input,output):
 def main():
     
     #run_tests()
+    
     parser = argparse.ArgumentParser(description="Encrypt or decrypt file using a stream cipher")
     parser.add_argument("password", help="Specify password")
     parser.add_argument("input_file", help="Input plaintext file (default: stdin)")
@@ -58,7 +59,7 @@ def main():
     args = parser.parse_args()
     try:
         with open(args.input_file, "rb") as input_file, open(args.output_file, "wb") as output_file:
-            apply_stream_cipher(args.password.encode(), input_file.read(), output_file)
+            apply_stream_cipher(args.password, input_file.read(), output_file)
     except Exception as e:
         sys.stderr.write(f"An error occurred: {e}\n")
         exit(1)
