@@ -5,19 +5,28 @@ import argparse,sys
 def encrypt_text(key, plaintext,blocksize):
     
     cols = {k: bytearray() for k in range(len(key))}
-    
-    encrypted_text = bytearray()
-    
-    for i, b in enumerate(plaintext):
-        cols_idx = i % len(key)
-        cols[cols_idx].append(b)
 
-    sorted_key = sorted(key)
-    
-    for start_idx in range(0,len(plaintext), blocksize):
+    encrypted_text = bytearray()
+
+    # Iterate over the plaintext in blocks of size 'blocksize'
+    for block_start in range(0, len(plaintext), blocksize):
+        # Extract a block of plaintext
+        block = plaintext[block_start:block_start + blocksize]
+
+        # Distribute characters of the block across columns
+        for i, char in enumerate(block):
+            cols_idx = i % len(key)
+            cols[cols_idx].append(char)
+
+        # Sort the columns based on the order of the key
+        sorted_key = sorted(key)
         for k in sorted_key:
             cols_idx = key.index(k)
             encrypted_text.extend(cols[cols_idx])
+
+        # Clear columns for next block
+        for col in cols.values():
+            col.clear()
 
     return encrypted_text
 
@@ -31,14 +40,18 @@ def main():
     args = parser.parse_args()
 
     
-    try:
-        with open(args.plaintextfile.read(), 'rb') as file:
-            plaintext = file.read()
-    except Exception as e:
-        sys.stderr.write(f"An error occurred: {e}\n")
-        exit(1)
+    if args.plaintextfile.name == '<stdin>':
+        plaintext = sys.stdin.buffer.read()
+    else:
+        try:
+            with open(args.plaintextfile.name, 'rb') as file:
+                plaintext = file.read()
+        except Exception as e:
+            sys.stderr.write(f"An error occurred: {e}\n")
+            sys.exit(1)
         
     encrypted_text = encrypt_text(args.key, plaintext, args.blocksize)
+
     sys.stdout.buffer.write(encrypted_text)
 
 if __name__ == '__main__':

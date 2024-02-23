@@ -1,0 +1,58 @@
+#!/usr/bin/python3
+
+import argparse,sys
+
+def decrypt_text(key, ciphertext, blocksize):
+ 
+    num_blocks = (len(ciphertext) + blocksize - 1) // blocksize
+    
+    cols = {k: bytearray() for k in range(len(key))}
+    
+    decrypted_text = bytearray()
+    
+    for block_index in range(num_blocks):
+        # Extract a block of ciphertext
+        block_start = block_index * blocksize
+        block_end = min((block_index + 1) * blocksize, len(ciphertext))
+        block = ciphertext[block_start:block_end]
+        
+        # Distribute characters of the block across columns based on the key
+        for i, char in enumerate(block):
+            cols_idx = key.index(str(i % len(key)))  # Ensure key is treated as string
+            cols[cols_idx].append(char)
+        
+        for k in range(len(key)):
+            decrypted_text.extend(cols[k])
+        
+        for col in cols.values():
+            col.clear()
+    
+    return decrypted_text
+
+
+
+
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Decrypt text encrypted with a columnar transposition cipher")
+    parser.add_argument("-b", "--blocksize", type=int, default=16, help="Specify the block size")
+    parser.add_argument("-k", "--key", type=str, required=True, help="Specify the encryption key")
+    parser.add_argument("ciphertextfile", nargs="?", type=argparse.FileType("rb"), default=sys.stdin.buffer, help="Input ciphertext file (default: stdin)")
+    args = parser.parse_args()
+
+    if args.ciphertextfile.name == '<stdin>':
+        ciphertext = sys.stdin.buffer.read()
+    else:
+        try:
+            with open(args.ciphertextfile.name, 'rb') as file:
+                ciphertext = file.read()
+        except Exception as e:
+            sys.stderr.write(f"An error occurred: {e}\n")
+            sys.exit(1)
+        
+    decrypted_text = decrypt_text(args.key, ciphertext, args.blocksize)
+    sys.stdout.buffer.write(decrypted_text)
+
+if __name__ == '__main__':
+    main()

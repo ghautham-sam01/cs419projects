@@ -27,6 +27,8 @@ def rand_gen(xO):
 
 def sdbm_hash(password):
     hash_val = 0
+    
+    # Iterate over each character in the password and update hash value using SDBM algorithm
     for c in password:
         hash_val = ord(c) + (hash_val << 6 & 0xFF) + (hash_val << 16 & 0xFF) - hash_val & 0xFF
     return hash_val 
@@ -34,6 +36,7 @@ def sdbm_hash(password):
 def gen_ks(seed,len):
     ks = bytearray()
     curr_val = seed
+    # Generate keystream of specified length
     for _ in range(len):
         ks.append(curr_val)
         curr_val = rand_gen(curr_val) 
@@ -43,6 +46,8 @@ def apply_stream_cipher(password,input,output):
     seed = sdbm_hash(password)
     ks = gen_ks(seed,len(input))
     ciphertext = bytearray()
+    
+    # Encrypt each byte of the input using XOR with the keystream
     for i in range(len(input)):
         ciphertext.append(input[i] ^ ks[i])
     output.write(ciphertext)

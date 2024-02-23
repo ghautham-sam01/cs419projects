@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-
-import argparse, sys, sencrypt
+import sys, argparse, sencrypt
 
 def decrypt(password, input, output):
     seed = sencrypt.sdbm_hash(password)
@@ -53,9 +52,9 @@ def main():
     try:
         with open(args.input_file, "rb") as input_file, open(args.output_file, "wb") as output_file:
             decrypt(args.password, input_file.read(), output_file)
-    except FileNotFoundError:
-        print("Error: File not found")
-        sys.exit(1)
+    except Exception as e:
+        sys.stderr.write(f"An error occurred: {e}\n")
+        exit(1)
 
 if __name__ == '__main__':
     main()
