@@ -3,34 +3,34 @@
 import argparse,sys
 
 def decrypt_text(key, ciphertext, blocksize):
- 
+
     num_blocks = (len(ciphertext) + blocksize - 1) // blocksize
     
     cols = {k: bytearray() for k in range(len(key))}
-    
+
     decrypted_text = bytearray()
     
+    # Iterate over each block
     for block_index in range(num_blocks):
+
         # Extract a block of ciphertext
         block_start = block_index * blocksize
         block_end = min((block_index + 1) * blocksize, len(ciphertext))
         block = ciphertext[block_start:block_end]
         
-        # Distribute characters of the block across columns based on the key
         for i, char in enumerate(block):
-            cols_idx = key.index(str(i % len(key)))  # Ensure key is treated as string
+            cols_idx = key.index(key[(i % (len(key)-1))]) 
             cols[cols_idx].append(char)
         
-        for k in range(len(key)):
-            decrypted_text.extend(cols[k])
+        # Reconstruct plaintext from sorted columns
+        sorted_cols = [cols[key.index(k)] for k in sorted(key)]
+        for col in sorted_cols:
+            decrypted_text.extend(col)
         
         for col in cols.values():
             col.clear()
     
     return decrypted_text
-
-
-
 
 
 

@@ -1,11 +1,34 @@
 #!/usr/bin/python3
-import argparse,sencrypt,sys
+import argparse,sys
 
+m = 256  # modulus
+a = 1103515245  # multiplier
+c = 12345  # increment
+
+def rand_gen(xO):
+    return ((xO*a) + c) % m 
+
+def sdbm_hash(password):
+    hash_val = 0
+    
+    # Iterate over each character in the password and update hash value using SDBM algorithm
+    for c in password:
+        hash_val = ord(c) + (hash_val << 6 & 0xFF) + (hash_val << 16 & 0xFF) - hash_val & 0xFF
+    return hash_val 
+
+def gen_ks(seed,len):
+    ks = bytearray()
+    curr_val = seed
+    # Generate keystream of specified length
+    for _ in range(len):
+        ks.append(curr_val)
+        curr_val = rand_gen(curr_val) 
+    return ks
 
 def encrypt(password, input, output):
 
-    seed = sencrypt.sdbm_hash(password)
-    ks = sencrypt.gen_ks(seed,len(input))
+    seed = sdbm_hash(password)
+    ks = gen_ks(seed,len(input))
 
     # Creating an initialization vector (IV) for applying CBC to the first block
     iv = bytearray(ks[:16])
@@ -27,7 +50,7 @@ def encrypt(password, input, output):
         for j in range(16):
             temp_block[j] ^= prev_ciphertxt_block[j]
         
-        ks_block = sencrypt.gen_ks(seed, 16)
+        ks_block = gen_ks(seed, 16)
 
         for j in range(16):
             fir = ks_block[j] & 0xf
