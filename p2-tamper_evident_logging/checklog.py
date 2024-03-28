@@ -1,0 +1,58 @@
+import os, hashlib, base64, sys
+
+def compute_hash(line):
+    hash_value = hashlib.sha256(line.encode()).digest()
+    return base64.b64encode(hash_value).decode()
+
+def checklog():
+    if not os.path.exists('log.txt'):
+        print("failed: Log file is missing.")
+        sys.exit(1)
+
+    if not os.path.exists('loghead.txt'):
+        print("failed: Head pointer file is missing.")
+        sys.exit(1)
+
+    expected_hash = ''
+
+    with open('loghead.txt', 'r') as f:
+        expected_hash = f.read().strip()
+
+    with open('log.txt', 'r') as f:
+        line_num = 1
+        current_hash = "begin"
+
+        #check first line
+        first_line = f.readline().strip()
+        if first_line.split(' ')[2] == 'begin':
+            current_hash = compute_hash(first_line)
+        else:
+            print('failed: lack of starting line')
+            sys.exit(1)
+
+        for line in f:
+            line_num += 1
+            line = line.strip()
+            
+            extract_hash = line.split(' ')[2]
+            
+            if extract_hash != current_hash:
+                print(f'failed: error at line {line_num-1}')
+                sys.exit(1)
+
+            current_hash = compute_hash(line)
+
+        # final check for last line
+        if current_hash != expected_hash:
+            print('failed: error at the last line')
+            sys.exit(1)
+
+    print("valid")
+    sys.exit(0)
+
+if __name__ == "__main__":
+    #check if there are command line arguments
+    if len(sys.argv) > 1:
+        print('failed: too many arguments')
+        sys.exit(1)
+    checklog()
