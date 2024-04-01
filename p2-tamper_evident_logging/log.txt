@@ -1,11 +1,7 @@
-2024-03-12T21:51:13Z - begin log entry with a new line hello
-2024-03-12T21:51:34Z - RQzraN2n8GjRKVzLN1HHLlKDR4uHDEZle3RxrMdVxJY= log entry with a new line \\n heloo
-2024-03-27T13:15:25Z - 3sY7n0yueo95+1zHmbyodVn4onGkBcpxPp8VtxutdhQ= new-entry
-2024-03-27T21:17:45Z - jEFwZsxOan95KdowsPZZgGa8RkrbaIwpD5UZgMI2wgU= heythisisate st1
-2024-03-28T04:40:15Z - UF0Fmog7zU5N//r9Q2C1Wz45JaPzwfCr1OSJIpjtF34= sdfsdf
-2024-03-28T04:40:24Z - IaURX3lfHOqg2vVcBGK+P8Sp32dCmmM141MQuRAqmPg= sdfsdf
-2024-03-28T04:41:42Z - /ZjQIzTJJYw053AJsAxMGKKDJwayDDvLuTQqYz2QNKg= sdfsdfsdg\
-2024-03-28T04:42:03Z - AoHSk2qbnJsdd5Jz/EzQ/Gg3z+yxKrodZyZu5Idpofs= howtoegetnewline
-2024-03-28T04:42:43Z - 0ikogtB5/guE9OVdKVBrDnU3boykU8ukYCoZfP23rA4= howtoegetnewlineh
-2024-03-28T04:48:14Z - 9CVX5QZ9a7vA5sVyINf3FaJxEwGrrSBn/Ffof1ma4Q4= new line test lets check
-2024-03-28T05:02:37Z - XPBrTGOy3ySbaSPVXGYJE6rfEHwgG5Gvl7RVQ96Sxe8= checking in from the virtual lab
+2024-04-01T06:32:48Z - begin first addlog1
+2024-04-01T06:35:06Z - 5ptdaF9NTonz8Qy/iGqJVZGzSGaNad9D9zPXSqP+DJ4= first addlog1/n convert to space
+2024-04-01T06:36:17Z - 5EoYFUacoz7G1G4JyP+kImLD2skb0FB53bPA90tlIPU= sec test \n convert to space
+2024-04-01T06:42:24Z - xhVc5toltXlKOSERX9O407Nmlut6Ma76zoOjlavZ9Eo= test 3  hello
+2024-04-01T06:42:56Z - Yqaa+Uq64TWAEFKpyY7BwYcnskCa/Pv9fhoVKJffxB0= all tests passed =)
+2024-04-01T06:43:19Z - 4ViGNfMe8UDOnqQvtUeb34Fk0aciOz/4KfKoPkEKVYM= moving onto checklog testing
+2024-04-01T02:51:01Z - CkcInNbbuY87WyNCj3zyzCaBk2FdWHWk40vuTUNH1DU= checking addlog datetimestamp

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import os, hashlib, base64, sys
+import os, sys, hashlib, base64 
 
 def compute_hash(line):
     hash_value = hashlib.sha256(line.encode()).digest()
@@ -24,7 +24,7 @@ def checklog():
         line_num = 1
         current_hash = "begin"
 
-        #check first line
+        # Check first line
         first_line = f.readline().strip()
         if first_line.split(' ')[2] == 'begin':
             current_hash = compute_hash(first_line)
@@ -44,7 +44,7 @@ def checklog():
 
             current_hash = compute_hash(line)
 
-        # final check for last line
+        # Final check for last line
         if current_hash != expected_hash:
             print('failed: error at the last line')
             sys.exit(1)
@@ -53,7 +53,7 @@ def checklog():
     sys.exit(0)
 
 if __name__ == "__main__":
-    #check if there are command line arguments
+    # Check if there are command line arguments
     if len(sys.argv) > 1:
         print('failed: too many arguments')
         sys.exit(1)
