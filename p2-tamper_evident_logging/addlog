@@ -1,4 +1,7 @@
+#!/usr/bin/python3
+
 import os,sys,argparse, hashlib, base64
+
 from datetime import datetime
 
 def get_prev_hash():
