@@ -5,3 +5,5 @@
 2024-04-01T06:42:56Z - Yqaa+Uq64TWAEFKpyY7BwYcnskCa/Pv9fhoVKJffxB0= all tests passed =)
 2024-04-01T06:43:19Z - 4ViGNfMe8UDOnqQvtUeb34Fk0aciOz/4KfKoPkEKVYM= moving onto checklog testing
 2024-04-01T02:51:01Z - CkcInNbbuY87WyNCj3zyzCaBk2FdWHWk40vuTUNH1DU= checking addlog datetimestamp
+2024-04-01T18:21:18Z - Y7tItv9kdHcmCIs2yWZQhg8vaWuZbFXkYNh3sl74I8c= test 3  test
+2024-04-01T18:22:14Z - UOqJL2xfCwLTuBipSHIJQZtId68pdmswkPh4hFyZ2/8= test 3 sgdfds
