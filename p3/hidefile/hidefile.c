@@ -27,7 +27,6 @@ struct dirent *readdir(DIR *dirp) {
         //Make copy of hiddlen_files to avoid changing the og string
         copy = strdup(hidden_files);
         hidden_file = strtok(copy, ":");
-
         while (hidden_file != NULL) {
             if (strcmp(entry->d_name, hidden_file) == 0) {
                 //Need to free because of strdup
